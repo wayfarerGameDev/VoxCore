@@ -1,0 +1,29 @@
+.intent
+# Ship Power & State
+When I say flight ready, start ship, power on or ignite, output --key r
+When I say power off, shut down or go dark, output --key u
+When I say engines off, cut engines or cut thrust, output --key i
+When I say unlock doors, unlock ship or open ports, output --key alt k
+
+# Navigation & Flight
+When I say quantum, jump, spool or warp, output --key b
+When I say landing gear, toggle gear or gear, output --key n
+When I say cruise control or cruise, output --key c
+When I say vtol or hover mode, output --key k
+When I say space brake, brake or halt, output --key x
+When I say ping, scan or radar, output --key tab
+
+# Combat & Power Triangle
+When I say max shields, power to shields or engage defense mode, output --key f8
+When I say max weapons, power to weapons or engage attack mode, output --key f6
+When I say max engines, power to engines or engage boost mode, output --key f7
+When I say balance power, reset power or equalize power, output --key f5
+
+# Countermeasures & Targeting
+When I say flare, decoy or drop flare, output --key h
+When I say noise, chaff or drop noise, output --key j
+When I say target, target hostiles or lock on, output --key t
+When I say next target or cycle targets, output --key y
+
+# Emergencies
+When I say eject, bail out or abandon ship, output --key alt y

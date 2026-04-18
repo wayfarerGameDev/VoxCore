@@ -1,0 +1,29 @@
+.intent
+# System & Navigation
+When I say lock mac, output --key ctrl cmd q
+When I say search, output --key cmd space
+When I say switch apps, output --key cmd tab
+When I say close window, output --key cmd w
+When I say quit app, output --key cmd q
+When I say hide app, output --key cmd h
+
+# Typing & Editing
+When I say undo, output --key cmd z
+When I say redo, output --key cmd shift z
+When I say copy, output --key cmd c
+When I say paste, output --key cmd v
+When I say cut, output --key cmd x
+When I say save, output --key cmd s
+When I say select all, output --key cmd a
+
+# Browser & Tabs
+When I say new tab, output --key cmd t
+When I say close tab, output --key cmd w
+When I say reopen tab, output --key cmd shift t
+When I say refresh, output --key cmd r
+When I say find, output --key cmd f
+
+# Utilities 
+When I say screenshot, output --key cmd shift 3
+When I say snip, output --key cmd shift 4
+When I say settings, output --key cmd ,
