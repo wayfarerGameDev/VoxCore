@@ -13,7 +13,7 @@ if is_android:
     import speech_recognition as sr
     from flask import Flask, request, render_template_string
 
-    class ServiceInputWhisper:
+    class ServiceInputMicAndroid:
         command = "--service_input_mic_android"
         
         def __init__(self, command_router_function):
@@ -204,7 +204,7 @@ if is_android:
             
 # Fallback for desktops / non-Android devices
 else:
-   class ServiceInputWhisper:
+   class ServiceInputMicAndroid:
         command = "--service_input_mic_android"
         
         def __init__(self, command_router_function):

@@ -18,8 +18,8 @@ SERVICE_REGISTRY = {
         service_command_keys_linux.ServiceCommandKeysLinux,
         service_command_keys_mac.ServiceCommandKeysMac,
         service_input_hotkeys.ServiceInputHotkeys,
-        service_input_mic_android.ServiceInputWhisper,
-        service_input_mic_whisper.ServiceInputWhisper,
+        service_input_mic_android.ServiceInputMicAndroid,
+        service_input_mic_whisper.ServiceInputMicWhisper,
         service_intent_rapidfuzz.ServiceIntentRapidFuzz,
         service_ui_terminal.ServiceUITerminal,
     }

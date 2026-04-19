@@ -2,7 +2,7 @@ import speech_recognition as sr
 import sys
 import time
 
-class ServiceInputWhisper:
+class ServiceInputMicWhisper:
     command = "--service_input_mic_whisper"
     
     def __init__(self, command_router_function):
