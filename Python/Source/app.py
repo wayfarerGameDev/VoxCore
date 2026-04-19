@@ -1,41 +1,25 @@
+
 import sys
 import os
 import gc
 import argparse
 import time
 
-import sys
-
-# 1. Platform-agnostic imports (These work everywhere)
-import service_input_whisper
+import service_command_keys_mac
+import service_input_hotkeys
+import service_input_mic_whisper
 import service_intent_rapidfuzz
 import service_ui_terminal
 
-# 2. Platform-specific imports (Wrap these in a check)
-if sys.platform == 'darwin':
-    import service_command_keys_mac
-    import service_input_hotkeys
-else:
-    # Set them to None so the code doesn't throw a NameError later
-    service_command_keys_mac = None
-    service_input_hotkeys = None
-
-# 3. Build a list of available service classes
-# We use a list here so we can filter out the 'None' entries
-active_services = [
-    service_input_whisper.ServiceInputWhisper,
-    service_intent_rapidfuzz.ServiceIntentRapidFuzz,
-    service_ui_terminal.ServiceUITerminal,
-]
-
-# Only add Mac services if the modules were actually loaded
-if service_command_keys_mac:
-    active_services.append(service_command_keys_mac.ServiceCommandKeysMac)
-if service_input_hotkeys:
-    active_services.append(service_input_hotkeys.ServiceInputHotkeys)
-
-# 4. Final Registry Construction
-SERVICE_REGISTRY = {s.command: s for s in active_services}
+SERVICE_REGISTRY = {
+    s.command: s for s in {
+        service_command_keys_mac.ServiceCommandKeysMac,
+        service_input_hotkeys.ServiceInputHotkeys,
+        service_input_mic_whisper.ServiceInputWhisper,
+        service_intent_rapidfuzz.ServiceIntentRapidFuzz,
+        service_ui_terminal.ServiceUITerminal,
+    }
+}
 
 debug = False
 _service_stack = []

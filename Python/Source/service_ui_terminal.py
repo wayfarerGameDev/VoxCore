@@ -3,49 +3,49 @@ import sys
 import time
 
 # Iconic Tech & IDE Themes
-PALETTE_DRACULA         = ['\033[38;5;141m', '\033[38;5;212m', '\033[38;5;84m', '\033[38;5;228m', '\033[38;5;203m', '\033[38;5;231m', '\033[0m', '\033[38;5;103m']
-PALETTE_GRUVBOX         = ['\033[38;5;214m', '\033[38;5;208m', '\033[38;5;142m', '\033[38;5;172m', '\033[38;5;142m', '\033[38;5;223m', '\033[0m', '\033[38;5;243m']
-PALETTE_NORD            = ['\033[38;5;110m', '\033[38;5;67m', '\033[38;5;150m', '\033[38;5;180m', '\033[38;5;167m', '\033[38;5;111m', '\033[0m', '\033[2m']
-PALETTE_MONOKAI         = ['\033[38;5;197m', '\033[38;5;148m', '\033[38;5;81m', '\033[38;5;208m', '\033[38;5;161m', '\033[38;5;231m', '\033[0m', '\033[38;5;242m']
-PALETTE_OCEANIC         = ['\033[38;5;38m', '\033[38;5;32m', '\033[38;5;79m', '\033[38;5;221m', '\033[38;5;203m', '\033[38;5;152m', '\033[0m', '\033[38;5;66m']
-PALETTE_SOLAR           = ['\033[38;5;33m', '\033[38;5;37m', '\033[38;5;64m', '\033[38;5;136m', '\033[38;5;160m', '\033[38;5;245m', '\033[0m', '\033[2m']
+PALETTE_DRACULA         = ['#af87ff', '#ff87d7', '#5fff87', '#ffff87', '#ff5f5f', '#ffffff', '#8787af', '#af87ff']
+PALETTE_GRUVBOX         = ['#ffaf00', '#ff8700', '#afaf00', '#d78700', '#afaf00', '#ffd7af', '#767676', '#ffaf00']
+PALETTE_NORD            = ['#87afd7', '#5f87af', '#afd787', '#d7af87', '#d75f5f', '#87afff', '#767676', '#87afd7']
+PALETTE_MONOKAI         = ['#ff005f', '#afd700', '#5fd7ff', '#ff8700', '#d7005f', '#ffffff', '#6c6c6c', '#ff005f']
+PALETTE_OCEANIC         = ['#00afd7', '#0087d7', '#5fd7af', '#ffd75f', '#ff5f5f', '#afd7d7', '#5f8787', '#00afd7']
+PALETTE_SOLAR           = ['#0087ff', '#00afaf', '#5f8700', '#af8700', '#d70000', '#8a8a8a', '#8a8a8a', '#0087ff']
 
 # Retro Hardware & Gaming
-PALETTE_PIPBOY_GREEN    = ['\033[38;5;47m', '\033[38;5;28m', '\033[38;5;46m', '\033[38;5;82m', '\033[38;5;196m', '\033[38;5;121m', '\033[0m', '\033[38;5;22m']
-PALETTE_PIPBOY_AMBER    = ['\033[38;5;208m', '\033[38;5;130m', '\033[38;5;214m', '\033[38;5;202m', '\033[38;5;166m', '\033[38;5;215m', '\033[0m', '\033[38;5;94m']
-PALETTE_PIPBOY_BLUE     = ['\033[38;5;51m', '\033[38;5;31m', '\033[38;5;45m', '\033[38;5;39m', '\033[38;5;24m', '\033[38;5;123m', '\033[0m', '\033[38;5;23m']
-PALETTE_PIPBOY_WHITE    = ['\033[38;5;255m', '\033[38;5;244m', '\033[38;5;252m', '\033[38;5;250m', '\033[38;5;248m', '\033[38;5;231m', '\033[0m', '\033[38;5;240m']
-PALETTE_PIPBOY_RED      = ['\033[38;5;196m', '\033[38;5;88m', '\033[38;5;160m', '\033[38;5;124m', '\033[38;5;52m', '\033[38;5;203m', '\033[0m', '\033[38;5;52m']
-PALETTE_PIPBOY_PURPLE   = ['\033[38;5;171m', '\033[38;5;93m', '\033[38;5;135m', '\033[38;5;129m', '\033[38;5;55m', '\033[38;5;183m', '\033[0m', '\033[38;5;54m']
-PALETTE_PIPBOY_YELLOW   = ['\033[38;5;226m', '\033[38;5;100m', '\033[38;5;220m', '\033[38;5;184m', '\033[38;5;136m', '\033[38;5;229m', '\033[0m', '\033[38;5;58m']
-PALETTE_PIPBOY_PINK     = ['\033[38;5;213m', '\033[38;5;162m', '\033[38;5;205m', '\033[38;5;200m', '\033[38;5;89m', '\033[38;5;219m', '\033[0m', '\033[38;5;53m']
-PALETTE_AMBER           = ['\033[38;5;214m', '\033[38;5;172m', '\033[38;5;220m', '\033[38;5;214m', '\033[38;5;196m', '\033[38;5;215m', '\033[0m', '\033[38;5;130m']
-PALETTE_PHOSPHOR        = ['\033[38;5;46m', '\033[38;5;28m', '\033[38;5;120m', '\033[38;5;46m', '\033[38;5;124m', '\033[38;5;84m',  '\033[0m', '\033[38;5;22m']
-PALETTE_C64             = ['\033[38;5;63m', '\033[38;5;105m', '\033[38;5;111m', '\033[38;5;227m', '\033[38;5;160m', '\033[38;5;153m', '\033[0m', '\033[38;5;17m']
-PALETTE_GAMEBOY         = ['\033[38;5;22m', '\033[38;5;64m', '\033[38;5;28m', '\033[38;5;100m', '\033[38;5;52m', '\033[38;5;107m', '\033[0m', '\033[2m']
-PALETTE_MATRIX          = ['\033[38;5;46m', '\033[38;5;22m', '\033[38;5;120m', '\033[38;5;190m', '\033[38;5;124m', '\033[38;5;48m',  '\033[0m', '\033[2m']
+PALETTE_PIPBOY_GREEN    = ['#00ff5f', '#008700', '#00ff00', '#5fff00', '#ff0000', '#87ffaf', '#005f00', '#00ff5f']
+PALETTE_PIPBOY_AMBER    = ['#ff8700', '#af5f00', '#ffaf00', '#ff5f00', '#d75f00', '#ffaf5f', '#875f00', '#ff8700']
+PALETTE_PIPBOY_BLUE     = ['#00ffff', '#0087af', '#00d7ff', '#00afff', '#005f87', '#87ffff', '#005f5f', '#00ffff']
+PALETTE_PIPBOY_WHITE    = ['#eeeeee', '#808080', '#d0d0d0', '#bcbcbc', '#a8a8a8', '#ffffff', '#585858', '#eeeeee']
+PALETTE_PIPBOY_RED      = ['#ff0000', '#870000', '#d70000', '#af0000', '#5f0000', '#ff5f5f', '#5f0000', '#ff0000']
+PALETTE_PIPBOY_PURPLE   = ['#d75fff', '#8700ff', '#af5fff', '#af00ff', '#5f00af', '#d7afff', '#5f0087', '#d75fff']
+PALETTE_PIPBOY_YELLOW   = ['#ffff00', '#878700', '#ffd700', '#d7d700', '#af8700', '#ffffaf', '#5f5f00', '#ffff00']
+PALETTE_PIPBOY_PINK     = ['#ff87ff', '#d70087', '#ff5faf', '#ff00d7', '#87005f', '#ffafff', '#5f005f', '#ff87ff']
+PALETTE_AMBER           = ['#ffaf00', '#d78700', '#ffd700', '#ffaf00', '#ff0000', '#ffaf5f', '#af5f00', '#ffaf00']
+PALETTE_PHOSPHOR        = ['#00ff00', '#008700', '#87ff87', '#00ff00', '#af0000', '#5fff87', '#005f00', '#00ff00']
+PALETTE_C64             = ['#5f5fff', '#8787ff', '#87afff', '#ffff5f', '#d70000', '#afd7ff', '#00005f', '#5f5fff']
+PALETTE_GAMEBOY         = ['#005f00', '#5f8700', '#008700', '#878700', '#5f0000', '#87af5f', '#5f8700', '#005f00']
+PALETTE_MATRIX          = ['#00ff00', '#005f00', '#87ff87', '#d7ff00', '#af0000', '#00ff87', '#00ff00', '#00ff00']
 
 # Original & Custom "Vox" Themes
-PALETTE_DUSTY           = ['\033[38;5;167m', '\033[38;5;103m', '\033[38;5;108m', '\033[38;5;186m', '\033[38;5;131m', '\033[38;5;252m', '\033[0m', '\033[2m']
-PALETTE_FOREST          = ['\033[38;5;34m', '\033[38;5;65m', '\033[38;5;113m', '\033[38;5;142m', '\033[38;5;88m', '\033[38;5;194m', '\033[0m', '\033[2m']
-PALETTE_MIDNIGHT        = ['\033[38;5;198m', '\033[38;5;45m', '\033[38;5;46m', '\033[38;5;214m', '\033[38;5;160m', '\033[38;5;45m',  '\033[0m', '\033[2m']
-PALETTE_VOID            = ['\033[38;5;255m', '\033[38;5;236m', '\033[38;5;248m', '\033[38;5;244m', '\033[38;5;124m', '\033[38;5;253m', '\033[0m', '\033[38;5;232m']
-PALETTE_BONE            = ['\033[38;5;252m', '\033[38;5;244m', '\033[38;5;250m', '\033[38;5;248m', '\033[38;5;238m', '\033[38;5;255m', '\033[0m', '\033[2m']
+PALETTE_DUSTY           = ['#d75f5f', '#8787af', '#87af87', '#d7d787', '#af5f5f', '#d0d0d0', '#8787af', '#d75f5f']
+PALETTE_FOREST          = ['#00af00', '#5f875f', '#87d75f', '#afaf00', '#870000', '#d7ffd7', '#5f875f', '#00af00']
+PALETTE_MIDNIGHT        = ['#ff0087', '#00d7ff', '#00ff00', '#ffaf00', '#d70000', '#00d7ff', '#00d7ff', '#ff0087']
+PALETTE_VOID            = ['#eeeeee', '#303030', '#a8a8a8', '#808080', '#af0000', '#dadada', '#080808', '#eeeeee']
+PALETTE_BONE            = ['#d0d0d0', '#808080', '#bcbcbc', '#a8a8a8', '#444444', '#eeeeee', '#808080', '#d0d0d0']
 
 # High-Energy & Aesthetic
-PALETTE_SYNTH           = ['\033[38;5;201m', '\033[38;5;129m', '\033[38;5;51m', '\033[38;5;226m', '\033[38;5;197m', '\033[38;5;51m',  '\033[0m', '\033[38;5;61m']
-PALETTE_VAPOR           = ['\033[38;5;201m', '\033[38;5;171m', '\033[38;5;51m', '\033[38;5;226m', '\033[38;5;204m', '\033[38;5;51m',  '\033[0m', '\033[2m']
-PALETTE_CYBER           = ['\033[38;5;226m', '\033[38;5;51m', '\033[38;5;201m', '\033[38;5;46m', '\033[38;5;196m', '\033[38;5;51m',  '\033[0m', '\033[2m']
-PALETTE_SAKURA          = ['\033[38;5;218m', '\033[38;5;225m', '\033[38;5;211m', '\033[38;5;221m', '\033[38;5;196m', '\033[38;5;255m', '\033[0m', '\033[38;5;252m']
+PALETTE_SYNTH           = ['#ff00ff', '#af00ff', '#00ffff', '#ffff00', '#ff005f', '#00ffff', '#5f5faf', '#ff00ff']
+PALETTE_VAPOR           = ['#ff00ff', '#d75fff', '#00ffff', '#ffff00', '#ff5f87', '#00ffff', '#d75fff', '#ff00ff']
+PALETTE_CYBER           = ['#ffff00', '#00ffff', '#ff00ff', '#00ff00', '#ff0000', '#00ffff', '#00ffff', '#ffff00']
+PALETTE_SAKURA          = ['#ffafaf', '#ffd7ff', '#ff87af', '#ffd75f', '#ff0000', '#eeeeee', '#d0d0d0', '#ffafaf']
 
 # Earth & Elemental
-PALETTE_OASIS           = ['\033[38;5;72m', '\033[38;5;66m', '\033[38;5;115m', '\033[38;5;179m', '\033[38;5;131m', '\033[38;5;194m', '\033[0m', '\033[38;5;23m']
-PALETTE_LAVA            = ['\033[38;5;196m', '\033[38;5;202m', '\033[38;5;208m', '\033[38;5;214m', '\033[38;5;160m', '\033[38;5;230m', '\033[0m', '\033[38;5;242m']
-PALETTE_GLACIER         = ['\033[38;5;117m', '\033[38;5;111m', '\033[38;5;153m', '\033[38;5;255m', '\033[38;5;24m', '\033[38;5;159m', '\033[0m', '\033[38;5;109m']
-PALETTE_COFFEE          = ['\033[38;5;94m', '\033[38;5;137m', '\033[38;5;138m', '\033[38;5;180m', '\033[38;5;52m', '\033[38;5;230m', '\033[0m', '\033[38;5;238m']
-PALETTE_CRIMSON         = ['\033[38;5;160m', '\033[38;5;88m', '\033[38;5;196m', '\033[38;5;202m', '\033[38;5;52m', '\033[38;5;255m', '\033[0m', '\033[2m']
-PALETTE_STEEL           = ['\033[38;5;244m', '\033[38;5;240m', '\033[38;5;250m', '\033[38;5;248m', '\033[38;5;235m', '\033[38;5;255m', '\033[0m', '\033[2m']
-PALETTE_WINDBLOWN       = ['\033[38;5;117m', '\033[38;5;244m', '\033[38;5;158m', '\033[38;5;222m', '\033[38;5;167m', '\033[38;5;255m', '\033[0m', '\033[38;5;240m']
+PALETTE_OASIS           = ['#5faf87', '#5f8787', '#87d7af', '#d7af5f', '#af5f5f', '#d7ffd7', '#005f5f', '#5faf87']
+PALETTE_LAVA            = ['#ff0000', '#ff5f00', '#ff8700', '#ffaf00', '#d70000', '#ffffd7', '#6c6c6c', '#ff0000']
+PALETTE_GLACIER         = ['#87d7ff', '#87afff', '#afd7ff', '#eeeeee', '#005f87', '#d7ffff', '#87afaf', '#87d7ff']
+PALETTE_COFFEE          = ['#875f00', '#af875f', '#af8787', '#d7af87', '#5f0000', '#ffffd7', '#444444', '#875f00']
+PALETTE_CRIMSON         = ['#d70000', '#870000', '#ff0000', '#ff5f00', '#5f0000', '#eeeeee', '#870000', '#d70000']
+PALETTE_STEEL           = ['#808080', '#585858', '#bcbcbc', '#a8a8a8', '#262626', '#eeeeee', '#585858', '#808080']
+PALETTE_WINDBLOWN       = ['#87d7ff', '#808080', '#afff87', '#ffd787', '#d75f5f', '#eeeeee', '#585858', '#87d7ff']
 
 # Set Active Theme
 PALETTE_CURRENT = PALETTE_PIPBOY_GREEN
@@ -110,7 +110,13 @@ class ServiceUITerminal:
     
     def __init__(self, command_router_function, palette=None, typewriter=True):
         self.route_command = command_router_function
-        self.p = PALETTE_MAP.get(palette.lower(), PALETTE_CURRENT) if palette else PALETTE_CURRENT
+        
+        # Initialize internal color system
+        self.hex_palette = []
+        self.p = []
+        initial_hex_list = PALETTE_MAP.get(palette.lower(), PALETTE_CURRENT) if palette else PALETTE_CURRENT
+        self._set_palette(initial_hex_list)
+        
         self.ui_buffer = []
         self.use_typewriter = typewriter
         self._lock = False
@@ -135,6 +141,20 @@ class ServiceUITerminal:
         self._logo_sub = "M i c r o k e r n e l"
         self._logo_edition = "  p y t h o n _ e d i t i o n\n"
 
+    def _set_palette(self, hex_list):
+        self.hex_palette = hex_list
+        self.p = []
+        # Compile text hex codes to 24-bit TrueColor ANSI
+        for hex_code in hex_list[:8]:
+            h = hex_code.lstrip('#')
+            r, g, b = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+            self.p.append(f"\033[38;2;{r};{g};{b}m")
+        self._set_cursor_color(self.hex_palette[5])
+
+    def _set_cursor_color(self, hex_color):
+        sys.stdout.write(f"\033]12;{hex_color}\a")
+        sys.stdout.flush()
+
     def _clear_screen(self):
         if os.name == 'nt':
             os.system('cls')
@@ -142,8 +162,12 @@ class ServiceUITerminal:
             sys.stdout.write('\033[2J\033[3J\033[H')
             sys.stdout.flush()
 
-    def _print(self, text, speed_key="default"):
+    def _print(self, text, speed_key="default", color_hex=None):
         self._lock = True
+        
+        # Dynamically shift cursor to match the element about to be printed
+        if color_hex:
+            self._set_cursor_color(color_hex)
         
         # Clear current prompt line
         sys.stdout.write(f"\r{' ' * 60}\r")
@@ -183,34 +207,41 @@ class ServiceUITerminal:
         self.on_command("--ui_spacer")
 
     def run(self):
-        while True:
-            # Wait for typewriter/printing lock to release
-            while self._lock: 
-                time.sleep(0.05)
+        try:
+            while True:
+                # Wait for typewriter/printing lock to release
+                while self._lock: 
+                    time.sleep(0.05)
 
-            prompt_str = f"\001{self.p[5]}\002VoxCore > " if USE_READLINE else f"{self.p[5]}VoxCore > "
-
-            try:
-                user_input = input(prompt_str).strip()
+                prompt_str = f"\001{self.p[5]}\002VoxCore > " if USE_READLINE else f"{self.p[5]}VoxCore > "
                 
-                if self._lock: 
-                    continue
-                
-                if user_input:
-                    sys.stdout.write(f"\033[F\r{' ' * 60}\r") 
-                    
-                    if USE_READLINE:
-                        import readline
-                        readline.add_history(user_input)
+                # Reset cursor color to match the prompt before asking for input
+                self._set_cursor_color(self.hex_palette[5])
 
-                    self.route_command(f"--ui_input Keyboard | {user_input}")            
-                    self.route_command(user_input, "Keyboard")
-                else:
-                    sys.stdout.write(f"\033[F\r{' ' * 60}\r")
-                    sys.stdout.flush() 
+                try:
+                    user_input = input(prompt_str).strip()
                     
-            except (KeyboardInterrupt, EOFError):
-                break
+                    if self._lock: 
+                        continue
+                    
+                    if user_input:
+                        sys.stdout.write(f"\033[F\r{' ' * 60}\r") 
+                        
+                        if USE_READLINE:
+                            import readline
+                            readline.add_history(user_input)
+
+                        self.route_command(f"--ui_input Keyboard | {user_input}")            
+                        self.route_command(user_input, "Keyboard")
+                    else:
+                        sys.stdout.write(f"\033[F\r{' ' * 60}\r")
+                        sys.stdout.flush() 
+                        
+                except (KeyboardInterrupt, EOFError):
+                    break
+        finally:
+            sys.stdout.write("\033]112;\a\033[0m\n")
+            sys.stdout.flush()
 
     def on_command(self, text: str) -> bool:
         while self._lock: 
@@ -260,46 +291,46 @@ class ServiceUITerminal:
         elif cmd_l.startswith("--ui_palette "):
             palette_key = cmd[13:].strip().lower()
             if palette_key in PALETTE_MAP:
-                self.p = PALETTE_MAP[palette_key]
+                self._set_palette(PALETTE_MAP[palette_key])
                 self.on_command("--ui_refresh")
             return True
         
         elif cmd_l == "--ui_app_title":
-            output = f"{self.p[0]}{self._logo}\n{self.p[1]}{self._logo_sub}{self.p[2]}{self._logo_edition}{self.p[6]}"
-            self._print(output, "title")
+            output = f"{self.p[0]}{self._logo}\n{self.p[1]}{self._logo_sub}{self.p[2]}{self._logo_edition}\033[0m"
+            self._print(output, "title", self.hex_palette[0])
             self.ui_buffer.append(text)
             return True
         
         elif cmd_l == "--ui_spacer":
-            self._print(" ", "default")
+            self._print(" ", "default", self.hex_palette[5])
             self.ui_buffer.append(text)
             return True
             
         elif cmd_l.startswith("--ui_header "):
             msg = cmd[12:].strip()
             if msg: 
-                self._print(f"{self.p[2]}{msg}{self.p[6]}", "header")
+                self._print(f"{self.p[2]}{msg}\033[0m", "header", self.hex_palette[2])
                 self.ui_buffer.append(text)
             return True
             
         elif cmd_l.startswith("--ui_notify "):
             msg = cmd[12:].strip()
             if msg: 
-                self._print(f"{self.p[7]}{msg}{self.p[6]}", "notify")
+                self._print(f"{self.p[6]}{msg}\033[0m", "notify", self.hex_palette[6])
                 self.ui_buffer.append(text)
             return True
             
         elif cmd_l.startswith("--ui_error "):
             msg = cmd[11:].strip()
             if msg: 
-                self._print(f"{self.p[4]}[!]Error: {msg}{self.p[6]}", "error")
+                self._print(f"{self.p[4]}[!]Error: {msg}\033[0m", "error", self.hex_palette[4])
                 self.ui_buffer.append(text)
             return True
             
         elif cmd_l.startswith("--ui_attention "):
             msg = cmd[15:].strip()
             if msg: 
-                self._print(f"{self.p[3]}[!]Attention: {msg}{self.p[6]}", "attention")
+                self._print(f"{self.p[3]}[!]Attention: {msg}\033[0m", "attention", self.hex_palette[3])
                 self.ui_buffer.append(text)
             return True
 
@@ -307,7 +338,7 @@ class ServiceUITerminal:
             payload = cmd[11:].strip()
             if "|" in payload:
                 cat, val = [x.strip() for x in payload.split("|", 1)]
-                self._print(f"{self.p[1]}[{cat.upper()}]{self.p[5]}{val}{self.p[6]}", "default")
+                self._print(f"{self.p[1]}[{cat.upper()}]\033[0m{self.p[5]}{val}\033[0m", "default", self.hex_palette[5])
                 self.ui_buffer.append(text)
             return True
             

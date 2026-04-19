@@ -3,7 +3,7 @@ import sys
 import time
 
 class ServiceInputWhisper:
-    command = "--service_input_whisper"
+    command = "--service_input_mic_whisper"
     
     def __init__(self, command_router_function):
         self.recognizer = sr.Recognizer()

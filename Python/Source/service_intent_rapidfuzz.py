@@ -7,17 +7,16 @@ class ServiceIntentRapidFuzz:
     def __init__(self, command_router_function):
         self.route_command = command_router_function
         self._rules = []
-        self._parsed_intents = {} # Maps "trigger phrase" -> "output command"
-        self.threshold = 80 # Confidence threshold (0-100)
+        self._intents_parsed = {} 
+        self.threshold = 80
 
     def start(self):
         self.route_command("--ui_header Service added: Intent_Rapidfuzz")
-        self.route_command("--ui_notify Fast Intent matcher loaded successfully.")
-
+    
     def stop(self):
         self.route_command("--ui_notify Service removed: Intent_Rapidfuzz")
         self._rules.clear()
-        self._parsed_intents.clear()
+        self._intents_parsed.clear()
     
     def on_command(self, text: str) -> bool:
         # Intent: Add
@@ -38,29 +37,22 @@ class ServiceIntentRapidFuzz:
                 self.route_command(f"--ui_notify Intent removed: '{sentence}'")
             return True
 
-        # Guard: Ignore system commands or if no rules exist
-        if text.startswith("--") or not self._parsed_intents: 
+        # Guard: Ignore system commands
+        if text.startswith("--"): 
             return False
 
         # Clean user input (lowercase, strip weird punctuation)
         user_input = text.translate(str.maketrans('', '', ".,!?;:()[]{}'\"\\")).lower().strip()
         
         # Execute Fuzzy Match
-        trigger_phrases = list(self._parsed_intents.keys())
+        trigger_phrases = list(self._intents_parsed.keys())
         
         # Finds the best match. Returns a tuple: (matched_string, score, index)
-        best_match = process.extractOne(
-            user_input, 
-            trigger_phrases, 
-            scorer=fuzz.token_set_ratio
-        )
-
+        best_match = process.extractOne(user_input, trigger_phrases, scorer=fuzz.token_set_ratio)
         if best_match:
             matched_phrase, score, _ = best_match
-            
-            # If the confidence score is high enough, execute it
             if score >= self.threshold:
-                final_command = self._parsed_intents[matched_phrase]
+                final_command = self._intents_parsed[matched_phrase]
                 self.route_command(f"--ui_notify [Intent Matched] ({score}% confidence): {final_command}")
                 self.route_command(final_command)
                 return True
@@ -68,14 +60,34 @@ class ServiceIntentRapidFuzz:
         return False
 
     def _parse_rules(self):
-        """
-        Converts human-readable rules into a fast lookup dictionary.
-        Expects format: "when I say 'something', output --command"
-        """
-        self._parsed_intents.clear()
+        self._intents_parsed.clear()
         
-        # Regex to extract the trigger phrase and the resulting command
-        pattern = re.compile(r"when I say (.*?)(?:,|\s+then|\s+than)*\s+output\s+(.*)", re.IGNORECASE)
+        pattern = re.compile(r"""
+        # The Condition (when, if, every time, anytime, once)
+        (?:when(?:ever)?|if|every\s*time|anytime|once|as\s*soon\s*as)\s+
+
+        # The Subject (I, we, you, the user)
+        (?:I|we|you|they|the\s*user)\s+
+    
+        # The Trigger Action (say, type, enter, tell you to, ask for, etc.)
+        (?:say|type|enter|input|write|speak|command|tell\s*you(?:\s*to)?|ask(?:\s*for)?|prompt)\s+
+    
+        # Capture Trigger Phrases (ignores optional quotes)
+        ['"]?(.*?)['"]?
+    
+        # Optional Separators & Politeness (then, comma, please, just)
+        \s*(?:,|\bthen\b|\bthan\b|please|just|go\s*ahead\s*and)?\s*
+    
+        # The Result Action (output, run, execute, print, respond with, etc.)
+        (?:output|run|say|type|do|execute|print|return|show(?:\s*me)?|give(?:\s*me)?|respond(?:\s*with)?|reply(?:\s*with)?|make)\s+
+    
+        # Group 2: The Command/Output (ignores optional quotes)
+        ['"]?(.*?)['"]?
+    
+        # End punctuation
+        [\.\!\?]*$
+        """, re.IGNORECASE | re.VERBOSE)
+        
         
         for rule in self._rules:
             match = pattern.search(rule)
@@ -88,4 +100,4 @@ class ServiceIntentRapidFuzz:
                 
                 # Add each trigger to the dictionary separately
                 for trigger in trigger_list:
-                    self._parsed_intents[trigger] = command
+                    self._intents_parsed[trigger] = command
