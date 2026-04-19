@@ -179,6 +179,7 @@ if sys.platform == 'darwin':
 # Not supported
 else:
    class ServiceCommandKeysMac:
+        command = "--service_command_keys_mac"
         
         def __init__(self, command_router_function):
             self.route_command = command_router_function

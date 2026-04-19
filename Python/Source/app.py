@@ -5,16 +5,20 @@ import gc
 import argparse
 import time
 
+import service_command_keys_linux
 import service_command_keys_mac
 import service_input_hotkeys
+import service_input_mic_android
 import service_input_mic_whisper
 import service_intent_rapidfuzz
 import service_ui_terminal
 
 SERVICE_REGISTRY = {
     s.command: s for s in {
+        service_command_keys_linux.ServiceCommandKeysLinux,
         service_command_keys_mac.ServiceCommandKeysMac,
         service_input_hotkeys.ServiceInputHotkeys,
+        service_input_mic_android.ServiceInputWhisper,
         service_input_mic_whisper.ServiceInputWhisper,
         service_intent_rapidfuzz.ServiceIntentRapidFuzz,
         service_ui_terminal.ServiceUITerminal,

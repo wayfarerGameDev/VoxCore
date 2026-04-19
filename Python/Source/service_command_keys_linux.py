@@ -5,7 +5,7 @@ if sys.platform == 'linux':
     import time
     from evdev import UInput, ecodes as e
 
-    class ServiceOutputKeyboard:
+    class ServiceCommandKeysLinux:
         command = "--service_output_keyboard"
         
         def __init__(self, command_router_function):
@@ -102,7 +102,8 @@ if sys.platform == 'linux':
 
 # Not supported
 else:
-   class ServiceCommandKeysMac:
+   class ServiceCommandKeysLinux:
+        command = "--service_output_keyboard"
         
         def __init__(self, command_router_function):
             self.route_command = command_router_function
