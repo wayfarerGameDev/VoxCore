@@ -189,28 +189,33 @@ static inline void task_output_radio_desktop_terminate(void)
 
 static inline bool task_output_radio_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
 {
+    // Guard
     if (type != VOX_BUS_EVENT_STRING) return false;
-    const char* command = (const char*)payload;
 
-    if (strncmp(command, "--radio_play ", 13) == 0)
+    // Payload : normalized
+    char payload_normalized[1024];
+    VOX_STRING_COPY(payload, payload_normalized, 1024);
+    VOX_STRING_LOWER_UNTIL_ANY(payload_normalized, 1024, " ");
+
+    if (strncmp(payload_normalized, "--radio_play ", 13) == 0)
     {
         for (int i = 0; i < _output_radio_station_registry_count; i++) 
-            if (strcmp(&_output_radio_station_registry_names[i * _OUTPUT_RADIO_STATION_REGISTRY_NAME_MAX], command + 13) == 0)
+            if (strcmp(&_output_radio_station_registry_names[i * _OUTPUT_RADIO_STATION_REGISTRY_NAME_MAX], payload_normalized + 13) == 0)
             {
                 mpv_command(_output_radio_mpv_handle, (const char*[]){"loadfile", &_output_radio_station_registry_urls[i * _OUTPUT_RADIO_STATION_REGISTRY_URL_MAX], NULL});
                 strncpy(_radio_station_current, &_output_radio_station_registry_names[i * _OUTPUT_RADIO_STATION_REGISTRY_NAME_MAX], _OUTPUT_RADIO_STATION_REGISTRY_NAME_MAX - 1);
                 return true;
             }
     }
-    else if (strcmp(command, "--radio_stop") == 0) 
+    else if (strcmp(payload_normalized, "--radio_stop") == 0) 
     {
         mpv_command(_output_radio_mpv_handle, (const char*[]){"stop", NULL});
         strncpy(_radio_station_current, "None", _OUTPUT_RADIO_STATION_REGISTRY_NAME_MAX - 1);
         return true;
     }
-    else if (strncmp(command, "--radio_volume ", 15) == 0) 
+    else if (strncmp(payload_normalized, "--radio_volume ", 15) == 0) 
     {
-        mpv_set_property_string(_output_radio_mpv_handle, "volume", command + 15);
+        mpv_set_property_string(_output_radio_mpv_handle, "volume", payload_normalized + 15);
         return true;
     }
 

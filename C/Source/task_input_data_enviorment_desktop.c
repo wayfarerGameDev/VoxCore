@@ -140,7 +140,8 @@ static void _to_12h(char* out, const char* iso_time)
 // Core Update Logic
 // =====================================================
 
-static void _env_update(int cat) {
+static void _env_update(int cat) 
+{
     char url[1024];
     char* res = NULL;
     cJSON* json = NULL;
@@ -182,17 +183,22 @@ static inline void task_input_data_enviorment_desktop_terminate(void)
 {
 }
 
-
 static inline void task_input_data_enviorment_desktop_run(float delta_time) 
 {
 }
 
 static inline bool task_input_data_enviorment_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
 {
+    // Guard
     if (type != VOX_BUS_EVENT_STRING) return false;
-    const char* command = (const char*)payload;
 
-    if (strcmp(command, "--data_enviorment_location") == 0) 
+    // Payload : normalized
+    char payload_normalized[1024];
+    VOX_STRING_COPY(payload, payload_normalized, 1024);
+    VOX_STRING_LOWER_UNTIL_ANY(payload_normalized, 1024, " ");
+
+    // Location
+    if (strcmp(payload_normalized, "--data_enviorment_location") == 0) 
     {
         if (_task_input_enviorment_desktop_location_valid == 0) _env_update(_TASK_INPUT_DATA_ENVIORMENT_DESKTOP_CAT_LOCATION);
         char b[512]; snprintf(b, 511, "--ui_notify Data Enviorment Location -> City: %s | Lat: %s | Lon: %s", _task_input_enviorment_desktop_city, _task_input_enviorment_desktop_lat, _task_input_enviorment_desktop_lon);
