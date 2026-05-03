@@ -109,7 +109,7 @@ static bool ui_typewriter_enabled = true;
 static volatile bool ui_typewriter_typing = false;
 
 // Command
-static bool (*_task_ui_terminal_on_event_bus)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_ui_terminal_on_event_bus)(int type, void* payload, int size, char* source) = NULL;
 static pthread_t  task_ui_terminal_desktop_listener_thread;
 
 // =====================================================
@@ -327,7 +327,7 @@ static inline void task_ui_terminal_desktop_run(float delta_time)
 {
 }
 
-static inline bool task_ui_terminal_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
+static inline bool task_ui_terminal_desktop_on_event_bus(int type, void* payload, int size, char* source) 
 {    
     if (type != VOX_BUS_EVENT_STRING) return false;
     const char* command = (const char*)payload;

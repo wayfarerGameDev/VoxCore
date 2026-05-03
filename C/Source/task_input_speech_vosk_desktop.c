@@ -10,7 +10,7 @@
 // Dependencies / External
 // =====================================================
 
-static bool (*_task_input_speech_vosk_desktop_transmit)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_input_speech_vosk_desktop_transmit)(int type, void* payload, int size, char* source) = NULL;
 
 // =====================================================
 // Data Registry / Configuration
@@ -79,7 +79,7 @@ static void _task_speech_parse(const char* json_str)
 // Task
 // =====================================================
 
-typedef bool (*VoxEventBusTransmit)(const int, const void*, const int, const char*);
+typedef bool (*VoxEventBusTransmit)(int, void*, int, char*);
 
 static inline void task_input_speech_vosk_desktop_boot(VoxEventBusTransmit transmit)
 {
@@ -99,7 +99,7 @@ static inline void task_input_speech_vosk_desktop_boot(VoxEventBusTransmit trans
     if (!_task_speech_recognizer) return;
 
     // UI
-    const char* msg = "--ui_notify_header Task booted: Input_Speech";
+    char* msg = "--ui_notify_header Task booted: Input_Speech";
     _task_input_speech_vosk_desktop_transmit(VOX_BUS_EVENT_STRING, msg, (int)strlen(msg) + 1, NULL);
 }
 
@@ -136,7 +136,7 @@ void task_input_speech_vosk_desktop_terminate()
     if (_task_speech_model) vosk_model_free(_task_speech_model);
 }
 
-bool task_input_speech_vosk_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
+bool task_input_speech_vosk_desktop_on_event_bus(int type, void* payload, int size, char* source) 
 {
     // Data buffer
     if (type == VOX_BUS_EVENT_MIC_POINTER)
@@ -151,7 +151,7 @@ bool task_input_speech_vosk_desktop_on_event_bus(const int type, const void* pay
     // Other
     if (type == VOX_BUS_EVENT_STRING)
     {
-        const char* payload_c = (const char*)payload;
+        char* payload_c = (char*)payload;
         if (strcmp(payload_c, "--mic_mute") == 0 || strcmp(payload_c, "--mic_off") == 0) return (_task_speech_muted = 1), true;
         if (strcmp(payload_c, "--mic_on") == 0 || strcmp(payload_c, "--mic_unmute") == 0) return (_task_speech_muted = 0), true;
     }

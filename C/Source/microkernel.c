@@ -14,14 +14,14 @@ static volatile bool vox_running = true;
 // Event bus
 // =====================================================
 
-bool bus_transmit(const int type, const void* payload, const int size, const char* source) 
+bool bus_transmit(int type, void* payload, int size, char* source) 
 {
     if (payload == NULL || size <= 0) return false;
 
     // Handle System-Level Payloads
     {
-        const char* text = (const char*)payload;
-        if (strcmp(text, "--quit") == 0 || strcmp(text, "--exit") == 0) 
+        char* payload_text = (char*)payload;
+        if (strcmp(payload_text, "--quit") == 0 || strcmp(payload_text, "--exit") == 0) 
         {
             vox_running = false;
             return true; 

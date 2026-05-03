@@ -55,7 +55,7 @@ static const int _output_keys_desktop_registry_count = sizeof(_output_keys_deskt
 // Other
 // =====================================================
 
-static bool (*_task_output_keys_on_event_bus)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_output_keys_on_event_bus)(int type, void* payload, int size, char* source) = NULL;
 
 // =====================================================
 // Core
@@ -122,7 +122,7 @@ static inline void task_output_keys_desktop_run(float delta_time)
 {
 }
 
-static inline bool task_output_keys_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source)
+static inline bool task_output_keys_desktop_on_event_bus(int type, void* payload, int size, char* source)
 {
     // Guard
     if (type != VOX_BUS_EVENT_STRING) return false;

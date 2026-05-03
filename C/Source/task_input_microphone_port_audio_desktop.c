@@ -8,7 +8,7 @@
 // =====================================================
 // Dependencies / External
 // =====================================================
-static bool (*_task_input_microphone_port_audio_desktop_transmit)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_input_microphone_port_audio_desktop_transmit)(int type, void* payload, int size, char* source) = NULL;
 
 // =====================================================
 // Data Registry / Configuration
@@ -44,7 +44,7 @@ static int _task_mic_pa_callback(const void *input_buffer, void *unused_output_b
 // =====================================================
 // Public Task Lifecycle
 // =====================================================
-typedef bool (*VoxEventBusTransmit)(const int, const void*, const int, const char*);
+typedef bool (*VoxEventBusTransmit)(int, void*, int, char*);
 
 static inline void task_input_microphone_port_audio_desktop_boot(VoxEventBusTransmit transmit)
 {
@@ -53,7 +53,7 @@ static inline void task_input_microphone_port_audio_desktop_boot(VoxEventBusTran
     _task_input_microphone_port_audio_desktop_transmit = transmit;
 
     // UI
-    const char* msg = "--ui_notify_header Task booted: Input_Microphone";
+    char* msg = "--ui_notify_header Task booted: Input_Microphone";
     _task_input_microphone_port_audio_desktop_transmit(VOX_BUS_EVENT_STRING, msg, (int)strlen(msg) + 1, NULL);
 
     // Mic state: send through event bus so other tasks can "sync" with data
@@ -100,7 +100,7 @@ void task_input_microphone_port_audio_desktop_terminate()
     Pa_Terminate();
 }
 
-bool task_input_microphone_port_audio_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
+bool task_input_microphone_port_audio_desktop_on_event_bus(int type, void* payload, int size, char* source) 
 {
     return false;
 }

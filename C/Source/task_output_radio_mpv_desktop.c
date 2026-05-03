@@ -43,7 +43,7 @@ static char _radio_station_current[_OUTPUT_RADIO_STATION_REGISTRY_NAME_MAX] = "N
 // Other
 // =====================================================
 
-static bool (*_task_output_radio_on_event_bus)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_output_radio_on_event_bus)(int type, void* payload, int size, char* source) = NULL;
 static mpv_handle* _output_radio_mpv_handle = NULL;
 
 // =====================================================
@@ -95,7 +95,9 @@ static void _output_radio_station_registry_add_directory(const char* base_path)
             strncpy(clean_name, entry->d_name, 63);
             char* dot = strrchr(clean_name, '.');
             if (dot) *dot = '\0';
-            
+            VOX_STRING_LOWER(clean_name, 64);
+            VOX_STRING_TRIM(clean_name, 64);
+
             // Add
             _output_radio_station_registry_add(clean_name, full_path);
         }
@@ -146,7 +148,7 @@ static void _output_radio_station_registry_add_directory_home()
 // Task
 // =====================================================
 
-static inline void task_output_radio_desktop_boot(VoxEventBusTransmit transmit) 
+static inline void task_output_radio_mpv_desktop_boot(VoxEventBusTransmit transmit) 
 {
     // Guard
     if (_output_radio_mpv_handle)
@@ -173,11 +175,11 @@ static inline void task_output_radio_desktop_boot(VoxEventBusTransmit transmit)
     _task_output_radio_on_event_bus(VOX_BUS_EVENT_STRING, boot_msg, strlen(boot_msg) + 1, "radio");
 }
 
-static inline void task_output_radio_desktop_run(float delta_time) 
+static inline void task_output_radio_mpv_desktop_run(float delta_time) 
 {
 }
 
-static inline void task_output_radio_desktop_terminate(void) 
+static inline void task_output_radio_mpv_desktop_terminate(void) 
 {
     // Guard
     if (!_output_radio_mpv_handle)
@@ -187,7 +189,7 @@ static inline void task_output_radio_desktop_terminate(void)
     _output_radio_mpv_handle = NULL;
 }
 
-static inline bool task_output_radio_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
+static inline bool task_output_radio_mpv_desktop_on_event_bus(int type, void* payload, int size, char* source) 
 {
     // Guard
     if (type != VOX_BUS_EVENT_STRING) return false;
@@ -195,7 +197,8 @@ static inline bool task_output_radio_desktop_on_event_bus(const int type, const 
     // Payload : normalized
     char payload_normalized[1024];
     VOX_STRING_COPY(payload, payload_normalized, 1024);
-    VOX_STRING_LOWER_UNTIL_ANY(payload_normalized, 1024, " ");
+    VOX_STRING_LOWER(payload_normalized, 1024);
+    VOX_STRING_TRIM(payload_normalized, 1024);
 
     if (strncmp(payload_normalized, "--radio_play ", 13) == 0)
     {

@@ -1,11 +1,7 @@
 // VOX_PKG:
 // VOX_DEP:
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define _TASK_TRANS_INTENT_FUZZY_UNIVERSAL_OUTPUT_PIVOTS \
+#define  _OUTPUT_PIVOTS\
     " then output ", " then execute ", " then press ", " then type ", " then run ", " then do ", " then ", \
     " than output ", " than execute ", " than press ", " than dp ", " than do ", " than ", \
     " output command ", " output ", " out ", \
@@ -19,7 +15,7 @@
     " send command ", " send ", \
     " perform ", " activate ", " initiate ", " invoke ", " fire ", " do ", NULL
 
-#define _TASK_TRANS_INTENT_FUZZY_UNIVERSAL_TRIGGER_PIVOTS \
+#define _TRIGGER_PIVOTS \
     "every time i say ", "every time i type ", "every time i enter ", \
     "whenever i say ", "whenever i type ", "whenever i enter ", \
     "as soon as i say ", "as soon as i type ", \
@@ -33,44 +29,112 @@
     "please ", "just ", \
     ", or ", " or ", ",", NULL
 
+#define _TRIGGER_MAX_PER_INTENT 10
+
+#define _MODE_ADD       0
+#define _MODE_REMOVE    1
+
 // =====================================================
 // Core
 // =====================================================
 
-static void _split_pivots(char* payload, const char* output_pivots[], char** command_value)
-{
-}
-
-static void task_trans_intent_fuzzy_universal_intent_add(char* payload, const int payload_size)
+static void task_trans_intent_fuzzy_universal_intent_compile(char* payload, const int payload_length, int Mode)
 {
     // Normalize: lower
-    VOX_STRING_LOWER(payload, payload_size);
+    VOX_STRING_LOWER(payload, payload_length);
 
-    // Shatter: Output
-    char* output = NULL; 
-    const char* output_pivots[] = { _TASK_TRANS_INTENT_FUZZY_UNIVERSAL_OUTPUT_PIVOTS };
-    _split_pivots(payload, output_pivots, &output);
-    if (output == NULL)
-        return;
+    // Output: snipper
+    char* output_start = NULL;
+    char* output_commad = NULL;
+    int output_command_length = 0;
+    {
+        // Current pivot
+        const char* output_pivots[] = { _OUTPUT_PIVOTS};
+        for(int i = 0; output_pivots[i] != NULL; i++)
+        {
+            // Window properties
+            int window_length = 0;
+            VOX_STRING_LENGTH(output_pivots[i],window_length);
+            int window_step_count = payload_length - window_length;
+            if (window_step_count < 0) continue;
+            char* window_tail = payload + window_step_count;
 
-    // Shater: Triggers
-    char* triggers = NULL;
-    const char* trigger_pivots[] = { _TASK_TRANS_INTENT_FUZZY_UNIVERSAL_TRIGGER_PIVOTS };
-    _split_pivots(payload, trigger_pivots, &triggers);
-    if (triggers == NULL)
-        return;
+            // Slide window (find match)
+            while(window_step_count >= 0)
+            {
+                // Mismatched
+                int is_match = 1; 
+                for (int j = 0; j < window_length; j++) 
+                    if (window_tail[j] != output_pivots[i][j]) 
+                    {
+                        is_match = 0;
+                        break;
+                    }
+
+                // Matched
+                if (is_match) 
+                {
+                    if (output_commad == NULL || window_tail > output_start)
+                    {
+                        output_start = window_tail;
+                        output_commad = window_tail + window_length;
+                        output_command_length = payload_length - (window_step_count + window_length);
+                    }
+                    break; 
+                }
+
+                // Slide window
+                window_tail--;
+                window_step_count--;
+            }
+        }
+
+        // Abort if we have no output
+        if (output_start == NULL)
+            return;
+
+        // Cut off output
+        if (output_start != NULL)
+            *output_start = '\0';
+
+        // Trim output
+        VOX_STRING_TRIM(output_commad, output_command_length);
+            
+        // Debug
+        #if VOX_DEBUG
+        if (output_commad != NULL) 
+        {
+            printf("--- Itent_Add (Fuzzy) ---\n");
+            printf("Trigger String: [%s]\n", payload);
+            printf("Command String: [%s]\n", output_commad);
+            printf("Command Length: %d\n", output_command_length);
+            printf("----------------------\n");
+        } 
+        #endif
+    }
+
+    // Triggers
+    char* trigger_ptrs[_TRIGGER_MAX_PER_INTENT];
+    int trigger_lens[_TRIGGER_MAX_PER_INTENT];
+    int trigger_count = 0;
+    {
+        const char* trigger_pivots[] = { _TRIGGER_PIVOTS};
+    }
 }
 
 // =====================================================
 // Task
 // =====================================================
 
-static bool (*_task_trans_intent_fuzzy_universal_on_event_bus)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_trans_intent_fuzzy_universal_on_event_bus)(int type, void* payload, int size, char* source) = NULL;
 
 static inline void task_trans_intent_fuzzy_universal_boot(VoxEventBusTransmit transmit) 
 {
     _task_trans_intent_fuzzy_universal_on_event_bus = transmit;
-    const char* boot_msg = "--ui_notify_header Task booted: Trans_Intent";
+    char* boot_msg = "--ui_notify_header Task booted: Trans_Intent";
+    _task_trans_intent_fuzzy_universal_on_event_bus(VOX_BUS_EVENT_STRING, boot_msg, strlen(boot_msg) + 1, NULL);
+
+    boot_msg ="--intent_add If I say fly or land, output --key control command q";
     _task_trans_intent_fuzzy_universal_on_event_bus(VOX_BUS_EVENT_STRING, boot_msg, strlen(boot_msg) + 1, NULL);
 }
 
@@ -82,7 +146,7 @@ static inline void task_trans_intent_fuzzy_universal_run(float delta_time)
 {
 }
 
-static inline bool task_trans_intent_fuzzy_universal_on_event_bus(const int type, const void* payload, const int size, const char* source) 
+static inline bool task_trans_intent_fuzzy_universal_on_event_bus(int type, void* payload, int size, char* source) 
 {
     // Guard
     if (type != VOX_BUS_EVENT_STRING) return false;
@@ -96,7 +160,7 @@ static inline bool task_trans_intent_fuzzy_universal_on_event_bus(const int type
     if (strncmp(payload_normalized, "--intent_add ", 13) == 0)
     {
          VOX_STRING_CHOP_UNTIL_ANY(payload_normalized, " ");
-         task_trans_intent_fuzzy_universal_intent_add(payload_normalized, size - 13);
+         task_trans_intent_fuzzy_universal_intent_compile(payload_normalized, size - 13, _MODE_ADD);
          return true;
     }
     

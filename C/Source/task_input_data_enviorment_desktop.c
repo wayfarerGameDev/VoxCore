@@ -70,7 +70,7 @@ static bool _task_input_enviorment_desktop_location_valid                       
 // Other
 // =====================================================
 
-static bool (*_task_input_data_enviorment_on_event_bus)(const int type, const void* payload, const int size, const char* source) = NULL;
+static bool (*_task_input_data_enviorment_on_event_bus)(int type, void* payload, int size, char* source) = NULL;
 
 // =====================================================
 // Helpers
@@ -187,7 +187,7 @@ static inline void task_input_data_enviorment_desktop_run(float delta_time)
 {
 }
 
-static inline bool task_input_data_enviorment_desktop_on_event_bus(const int type, const void* payload, const int size, const char* source) 
+static inline bool task_input_data_enviorment_desktop_on_event_bus(int type, void* payload, int size, char* source) 
 {
     // Guard
     if (type != VOX_BUS_EVENT_STRING) return false;
