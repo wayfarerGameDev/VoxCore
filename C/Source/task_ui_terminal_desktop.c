@@ -172,14 +172,12 @@ static void task_ui_terminal_desktop_print(int color_index, const char* text, in
 
 static void task_ui_terminal_desktop_title()
 {
-    task_ui_terminal_desktop_print(0, "██╗   ██╗ ██████╗ ██╗  ██╗    ██████╗  ██████╗ ██████╗ ███████╗\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(0, "██║   ██║██╔═══██╗╚██╗██╔╝    ██╔════╝ ██╔═══██╗██╔══██╗██╔════╝\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(0, "██║   ██║██║   ██║ ╚███╔╝     ██║      ██║   ██║██████╔╝█████╗\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(0, "██║   ██║██║   ██║ ╚███╔╝     ██║      ██║   ██║██████╔╝█████╗\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(0, "╚██╗ ██╔╝██║   ██║ ██╔██╗     ██║      ██║   ██║██╔══██╗██╔══╝\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(0, "╚████╔╝ ╚██████╔╝██╔╝ ██╗    ╚██████╗ ╚██████╔╝██║  ██║███████╗\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(0, "╚═══╝   ╚═════╝ ╚═╝  ╚═╝     ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝\n", _UI_TYPEWRITER_DELAY_TITLE, false);
-    task_ui_terminal_desktop_print(1, "M i c r o k e r n e l   ", _UI_TYPEWRITER_DELAY_US, false);
+    task_ui_terminal_desktop_print(0, "██    ██  ██████  ██   ██     ██████  ██████  ██████  ███████\n", _UI_TYPEWRITER_DELAY_TITLE, false);
+    task_ui_terminal_desktop_print(0, "██    ██ ██    ██  ██ ██     ██      ██    ██ ██   ██ ██     \n", _UI_TYPEWRITER_DELAY_TITLE, false);
+    task_ui_terminal_desktop_print(0, "██    ██ ██    ██   ███      ██      ██    ██ ██████  █████  \n", _UI_TYPEWRITER_DELAY_TITLE, false);
+    task_ui_terminal_desktop_print(0, " ██  ██  ██    ██  ██ ██     ██      ██    ██ ██   ██ ██     \n", _UI_TYPEWRITER_DELAY_TITLE, false);
+    task_ui_terminal_desktop_print(0, "  ████    ██████  ██   ██     ██████  ██████  ██   ██ ███████\n", _UI_TYPEWRITER_DELAY_TITLE, false);
+    task_ui_terminal_desktop_print(1, "\nM i c r o k e r n e l   ", _UI_TYPEWRITER_DELAY_US, false);
     task_ui_terminal_desktop_print(2, "c _ e d i t i o n\n\n", _UI_TYPEWRITER_DELAY_US, false);
 }
 
@@ -350,6 +348,20 @@ static inline bool task_ui_terminal_desktop_on_event_bus(int type, void* payload
     {
         task_ui_terminal_desktop_stack_clear();
         task_ui_terminal_refresh();
+        return true;
+    }
+
+    if (strcmp(command_action, "--log_header") == 0) 
+    {
+        task_ui_terminal_desktop_stack_push(2, command_args);
+        task_ui_terminal_desktop_print(6, command_args, _UI_TYPEWRITER_DELAY_US, true);
+        return true;
+    }
+
+    if (strcmp(command_action, "--log") == 0) 
+    {
+        task_ui_terminal_desktop_stack_push(2, command_args);
+        task_ui_terminal_desktop_print(6, command_args, _UI_TYPEWRITER_DELAY_US, true);
         return true;
     }
 

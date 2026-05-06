@@ -8,6 +8,7 @@
 // =====================================================
 // Dependencies / External
 // =====================================================
+
 static bool (*_task_input_microphone_port_audio_desktop_transmit)(int type, void* payload, int size, char* source) = NULL;
 
 // =====================================================
@@ -21,6 +22,7 @@ static bool (*_task_input_microphone_port_audio_desktop_transmit)(int type, void
 // =====================================================
 // State (The Silo)
 // =====================================================
+
 static PaStream* _task_mic_pa_stream = NULL;
 
 static short _task_mic_buffer[_AUDIO_BUFFER_SIZE] = {0};
@@ -30,6 +32,7 @@ static int _task_mic_read_index = 0;
 // =====================================================
 // Private Logic
 // =====================================================
+
 static int _task_mic_pa_callback(const void *input_buffer, void *unused_output_buffer, unsigned long frames_per_buffer, const PaStreamCallbackTimeInfo* unused_time_info, PaStreamCallbackFlags unused_status_flags, void *unused_user_data)
 {
     const short* input = (const short*)input_buffer;
@@ -44,6 +47,7 @@ static int _task_mic_pa_callback(const void *input_buffer, void *unused_output_b
 // =====================================================
 // Public Task Lifecycle
 // =====================================================
+
 typedef bool (*VoxEventBusTransmit)(int, void*, int, char*);
 
 static inline void task_input_microphone_port_audio_desktop_boot(VoxEventBusTransmit transmit)

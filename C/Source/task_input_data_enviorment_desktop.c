@@ -1,7 +1,6 @@
 // VOX_PKG: curl cjson
 // VOX_DEP: -lcurl -lcjson
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

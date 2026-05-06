@@ -38,25 +38,31 @@
 // Core
 // =====================================================
 
-static void task_trans_intent_fuzzy_universal_intent_compile(char* payload, const int payload_length, int Mode)
+static void task_trans_intent_fuzzy_universal_intent_compile(char* payload, int payload_length, int Mode)
 {
     // Normalize: lower
     VOX_STRING_LOWER(payload, payload_length);
 
-    // Output: snipper
+    // Output
+    /* 
+     * REVERSE WINDOW SEARCH: 
+     * Identifies the final output segment by sliding a search window from the 
+     * right (end) of the payload toward the left. This allows the logic to 
+     * isolate only the most recent pivot and its subsequent command data.
+     */
     char* output_start = NULL;
     char* output_commad = NULL;
     int output_command_length = 0;
     {
         // Current pivot
-        const char* output_pivots[] = { _OUTPUT_PIVOTS};
+        const char* output_pivots[] = { _OUTPUT_PIVOTS };
         for(int i = 0; output_pivots[i] != NULL; i++)
         {
             // Window properties
             int window_length = 0;
             VOX_STRING_LENGTH(output_pivots[i],window_length);
             int window_step_count = payload_length - window_length;
-            if (window_step_count < 0) continue;
+            // if (window_step_count < 0) continue;
             char* window_tail = payload + window_step_count;
 
             // Slide window (find match)
@@ -78,7 +84,7 @@ static void task_trans_intent_fuzzy_universal_intent_compile(char* payload, cons
                     {
                         output_start = window_tail;
                         output_commad = window_tail + window_length;
-                        output_command_length = payload_length - (window_step_count + window_length);
+                        output_command_length = payload_length - (window_step_count + window_length) - 1;
                     }
                     break; 
                 }
@@ -89,13 +95,13 @@ static void task_trans_intent_fuzzy_universal_intent_compile(char* payload, cons
             }
         }
 
-        // Abort if we have no output
-        if (output_start == NULL)
-            return;
-
-        // Cut off output
+        // Cut off output | Abort if we have no input
         if (output_start != NULL)
+        {
             *output_start = '\0';
+            payload_length = (int)(output_start - payload);
+        }
+        else return;
 
         // Trim output
         VOX_STRING_TRIM(output_commad, output_command_length);
@@ -104,11 +110,11 @@ static void task_trans_intent_fuzzy_universal_intent_compile(char* payload, cons
         #if VOX_DEBUG
         if (output_commad != NULL) 
         {
-            printf("--- Itent_Add (Fuzzy) ---\n");
-            printf("Trigger String: [%s]\n", payload);
-            printf("Command String: [%s]\n", output_commad);
-            printf("Command Length: %d\n", output_command_length);
-            printf("----------------------\n");
+            printf("\n[DEBUG] Itent_Compile (Fuzzy)\n");
+            printf("PAYLOAD: \"%s\"\n", payload);
+            printf("PAYLOAD LENGTH: %d\n", payload_length);
+            printf("COMMAND: \"%s\"\n", output_commad);
+            printf("COMMAND LENGTH: %d \n", output_command_length);
         } 
         #endif
     }
@@ -134,8 +140,8 @@ static inline void task_trans_intent_fuzzy_universal_boot(VoxEventBusTransmit tr
     char* boot_msg = "--ui_notify_header Task booted: Trans_Intent";
     _task_trans_intent_fuzzy_universal_on_event_bus(VOX_BUS_EVENT_STRING, boot_msg, strlen(boot_msg) + 1, NULL);
 
-    boot_msg ="--intent_add If I say fly or land, output --key control command q";
-    _task_trans_intent_fuzzy_universal_on_event_bus(VOX_BUS_EVENT_STRING, boot_msg, strlen(boot_msg) + 1, NULL);
+    char* msg ="--intent_add If I say fly or land, output --key control command q";
+    _task_trans_intent_fuzzy_universal_on_event_bus(VOX_BUS_EVENT_STRING, msg, strlen(msg) + 1, NULL);
 }
 
 static inline void task_trans_intent_fuzzy_universal_terminate(void)
